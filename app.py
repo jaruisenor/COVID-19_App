@@ -1,5 +1,5 @@
 # Import required libraries
-#import pathlib
+import pathlib
 import os
 from random import randint
 import dash
@@ -22,8 +22,8 @@ import plotly.express as px
 from controls import REGIONES, ENFERMEDADES
 
 # get relative data folder
-#PATH = pathlib.Path(__file__).parent
-#DATA_PATH = PATH.joinpath("data").resolve()
+PATH = pathlib.Path(__file__).parent
+DATA_PATH = PATH.joinpath("data").resolve()
 
 server = flask.Flask(__name__)
 server.secret_key = os.environ.get('secret_key', str(randint(0, 1000000)))
