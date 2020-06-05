@@ -1,7 +1,5 @@
 # Import required libraries
-import pickle
-import copy
-import pathlib
+#import pathlib
 import dash
 import math
 from datetime import datetime as dt
@@ -20,13 +18,12 @@ import plotly.express as px
 from controls import REGIONES, ENFERMEDADES
 
 # get relative data folder
-PATH = pathlib.Path(__file__).parent
-DATA_PATH = PATH.joinpath("data").resolve()
+#PATH = pathlib.Path(__file__).parent
+#DATA_PATH = PATH.joinpath("data").resolve()
 
-app = dash.Dash(
-    __name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}],  external_stylesheets=[dbc.themes.BOOTSTRAP]
-)
-server = app.server
+server = flask.Flask(__name__)
+server.secret_key = os.environ.get('secret_key', str(randint(0, 1000000)))
+app = dash.Dash(__name__, server=server, meta_tags=[{"name": "viewport", "content": "width=device-width"}],  external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 #####################################               GET DATA            ##########################################################################################################
 #### Datos regional/comunal
@@ -534,7 +531,13 @@ contenedor_footer= dbc.Col([
                             html.Div(html.Img(src="https://www.soydemarketing.com/wp-content/uploads/2015/12/linkedin-logo.png",style={
                                             "height": "25px",
                                             "width": "25px",
-                                            }))
+                                            }))]),
+                    dbc.Row([html.Div(html.P('Repo: '), style={'margin-right':'5px'}),
+                            html.Div(html.A('jaruisenor/covid19dash', href= 'https://github.com/jaruisenor/COVID-19_App'), style={'margin-right':'5px'}),
+                            html.Div(html.Img(src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",style={
+                                            "height": "25px",
+                                            "width": "25px",
+                                            })),
                     ]),
                 ])
 
@@ -1071,6 +1074,7 @@ def enfermedades_graph(start_date, end_date):
 
     return fig
 
-# Main
-if __name__ == "__main__":
-    app.run_server(debug=True)
+
+# Run the Dash app
+if __name__ == '__main__':
+    app.server.run(debug=True, threaded=True)
