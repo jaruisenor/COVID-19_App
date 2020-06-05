@@ -21,6 +21,7 @@ import plotly.express as px
 # Multi-dropdown options
 from controls import REGIONES, ENFERMEDADES
 
+
 # get relative data folder
 PATH = pathlib.Path(__file__).parent
 DATA_PATH = PATH.joinpath("data").resolve()
@@ -685,11 +686,11 @@ def update_output(start_date, end_date):
     string_prefix = 'Seleccion: '
     if start_date is not None:
         start_date = dt.strptime(re.split('T| ', start_date)[0], '%Y-%m-%d')
-        start_date_string = start_date.strftime('%B %d, %Y')
+        start_date_string = start_date.strftime('%b %d,  %Y')
         string_prefix = string_prefix + '' + start_date_string + ' | '
     if end_date is not None:
         end_date = dt.strptime(re.split('T| ', end_date)[0], '%Y-%m-%d')
-        end_date_string = end_date.strftime('%B %d, %Y')
+        end_date_string = end_date.strftime('%b %d,  %Y')
         string_prefix = string_prefix + '' + end_date_string
     if len(string_prefix) == len('Seleccionado: '):
         return 'Selecciona un rango de fechas'
@@ -835,7 +836,7 @@ def render_graph(start_date, end_date):
     layout = go.Layout(
         paper_bgcolor='#f9f9f9',
         plot_bgcolor= '#f9f9f9',
-        xaxis = dict(range=[min(x), max(x)]),
+        xaxis = dict(type='date', tickformat = '%m/%Y', dtick=86400000.0 * 14 ,range=[min(x), max(x)]),
         yaxis = dict(range=[min(y), max(y)]),
         font = dict(color = 'black'),
         title= 'Casos Nacionales',
@@ -882,7 +883,7 @@ def render_graph(start_date, end_date):
     layout_barra = go.Layout(
         paper_bgcolor='#f9f9f9',
         plot_bgcolor= '#f9f9f9',
-        xaxis = dict(range=[min(x), max(x)]),
+        xaxis =  dict(type='date', tickformat = '%m/%Y', dtick=86400000.0 * 30 ,range=[min(x), max(x)]),
         yaxis = dict(range=[min(y), max(y)]),
         font = dict(color = 'black'),
         title= 'Casos Nuevos por Día Chile',
@@ -914,7 +915,7 @@ def graph_regiones(regiones_elegidas):
         layout = go.Layout(
             paper_bgcolor='#f9f9f9',
             plot_bgcolor= '#f9f9f9',
-            #xaxis = dict(range=[min(x), max(x)]),
+            xaxis =  dict(type='date', tickformat = '%m/%Y', dtick=86400000.0 * 30 ,range=[min(x), max(x)]),
             #yaxis = dict(range=[min(y), max(y)]),
             font = dict(color = 'black'),
             title= 'Casos Regiones (Seleccionar una region)',
@@ -953,6 +954,7 @@ def graph_regiones(regiones_elegidas):
         layout = dict(
             title='Casos Regionales',
             font = dict(color = 'black'),
+            xaxis= dict(type='date', tickformat = '%m/%Y', dtick=86400000.0 * 30 ),
             paper_bgcolor='#f9f9f9',
             plot_bgcolor= '#f9f9f9',
             )
@@ -975,7 +977,7 @@ def graph_regiones(comunas_elegidas):
         layout = go.Layout(
             paper_bgcolor='#f9f9f9',
             plot_bgcolor= '#f9f9f9',
-            #xaxis = dict(range=[min(x), max(x)]),
+            xaxis = dict(type='date', tickformat = '%m/%Y', dtick=86400000.0 * 30 ),
             #yaxis = dict(range=[min(y), max(y)]),
             font = dict(color = 'black'),
             title= 'Casos Comunas (seleccionar comuna)',
@@ -1012,6 +1014,7 @@ def graph_regiones(comunas_elegidas):
         layout = dict(
             title='Casos Comunas',
             font = dict(color = 'black'),
+            xaxis = dict(type='date', tickformat = '%m/%Y', dtick=86400000.0 * 30 ),
             paper_bgcolor='#f9f9f9',
             plot_bgcolor= '#f9f9f9',
             )
@@ -1023,7 +1026,7 @@ def graph_regiones(comunas_elegidas):
         layout = go.Layout(
             paper_bgcolor='#f9f9f9',
             plot_bgcolor= '#f9f9f9',
-            #xaxis = dict(range=[min(x), max(x)]),
+            xaxis = dict(type='date', tickformat = '%m/%Y', dtick=86400000.0 * 30 ),
             #yaxis = dict(range=[min(y), max(y)]),
             font = dict(color = 'black'),
             title= 'Casos Comunas (seleccionar comuna)',
