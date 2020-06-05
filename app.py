@@ -263,7 +263,7 @@ body2 = html.Div([
                                         'margin-bottom':'10px',
                                         'margin-rigth':'10px'
                                     }
-                                ), 
+                                ), className="row flex-display",
                                 ),         
                 dbc.Col(html.Div(
                                     Q2,
@@ -354,7 +354,7 @@ body2 = html.Div([
                                 },
                             )
                             ), style={'margin-bottom':'10px'}),
-    ]
+    ],
 )
 
 
@@ -413,7 +413,7 @@ filtros = dbc.Container(
                             value = list()
                         ),
 
-                ]),
+                ]), fluid=True
 )
                     
 
@@ -438,7 +438,8 @@ body = html.Div(
                             'background-color': '#ffffff',
                             'marigin-top':'10px',
                             'position': 'relative',
-                            'width':'100%',})
+                            'width':'100%',
+                            })
         ]),
 )
 
