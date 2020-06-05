@@ -398,6 +398,7 @@ filtros = dbc.Container(
                             value=list('Metropolitana'),
                             className="dcc_control",
                         ),
+                    html.P('Mirar Grafico "Casos Regionales" abajo para ver datos filtrados.', style={'font-size':'10px', 'margin-top':'5px'}),
                     html.Hr(),
                     html.B("Filtrar por Comuna: ", className="control_label"),
                     dcc.RadioItems(
@@ -416,6 +417,7 @@ filtros = dbc.Container(
                             className="dcc_control",
                             value = list()
                         ),
+                    html.P('Mirar Grafico "Casos Comunales" abajo para ver datos filtrados.', style={'font-size':'10px', 'margin-top':'5px'}),
 
                 ]), fluid=True
 )
@@ -740,13 +742,7 @@ def display_region(selector, lista_regiones):
 
 
 
-# Date -> Containers
-#Total
-def update_total_casos(start_date, end_date):
-    dff = filter_dataframe(df_nacional, start_date, end_date)
-    return dff['Casos totales'].iloc[-1]
-
-#Activos
+#Total Casos
 @app.callback(
     Output("total-casos", "children"),
     [Input('my-date-picker-range', 'start_date'),
@@ -754,7 +750,13 @@ def update_total_casos(start_date, end_date):
 )
 def update_total_casos(start_date, end_date):
     dff = filter_dataframe(df_nacional, start_date, end_date)
-    return dff['Casos totales'].iloc[-1]
+    df = dff['Casos totales']
+    lista_no_vacia=[]
+    for i in df:
+        if i >= 0:
+            lista_no_vacia.append(i)
+    non_empty=lista_no_vacia[-1]
+    return non_empty
 
 #Activos
 @app.callback(
@@ -764,7 +766,13 @@ def update_total_casos(start_date, end_date):
 )
 def update_total_casos(start_date, end_date):
     dff = filter_dataframe(df_nacional, start_date, end_date)
-    return dff['Casos activos'].iloc[-1]
+    df = dff['Casos activos']
+    lista_no_vacia=[]
+    for i in df:
+        if i >= 0:
+            lista_no_vacia.append(i)
+    non_empty=lista_no_vacia[-1]
+    return non_empty
 
 #Recuperados
 @app.callback(
@@ -776,7 +784,12 @@ def update_total_casos(start_date, end_date):
 
     dff = filter_dataframe(df_nacional, start_date, end_date)
     rec = list(dff['Casos nuevos totales'])
-    return dff['Casos nuevos totales'].iloc[-1]
+    if dff['Casos nuevos totales'].iloc[-1] is not None:
+        return dff['Casos nuevos totales'].iloc[-1]
+    else:
+        df = dff['Casos nuevos totales']
+        df = df.fillna(method='ffill', inplace=True)
+        return df.iloc[-1]
 
 #total Muertes
 @app.callback(
@@ -787,8 +800,13 @@ def update_total_casos(start_date, end_date):
 def update_total_casos(start_date, end_date):
 
     dff = filter_dataframe(df_nacional, start_date, end_date)
-    return dff['Fallecidos'].iloc[-1]
-
+    df = dff['Fallecidos']
+    lista_no_vacia=[]
+    for i in df:
+        if i >= 0:
+            lista_no_vacia.append(i)
+    non_empty=lista_no_vacia[-1]
+    return non_empty
 
 
 #Date --> Grafico nacional
@@ -837,8 +855,8 @@ def render_graph(start_date, end_date):
     layout = go.Layout(
         paper_bgcolor='#f9f9f9',
         plot_bgcolor= '#f9f9f9',
-        xaxis = dict(type='date', tickformat = '%m/%Y', dtick=86400000.0 * 14 ,range=[min(x), max(x)]),
-        yaxis = dict(range=[min(y), max(y)]),
+        xaxis = dict(type='date', tickformat = '%d/%m/%Y', dtick=86400000.0 * 15 ,range=[min(x), max(x)]),
+        #yaxis = dict(range=[min(y), max(y)]),
         font = dict(color = 'black'),
         title= 'Casos Nacionales',
         legend=dict(
@@ -884,7 +902,7 @@ def render_graph(start_date, end_date):
     layout_barra = go.Layout(
         paper_bgcolor='#f9f9f9',
         plot_bgcolor= '#f9f9f9',
-        xaxis =  dict(type='date', tickformat = '%m/%Y', dtick=86400000.0 * 30 ,range=[min(x), max(x)]),
+        xaxis =  dict(type='date', tickformat ='%d/%m/%Y', dtick=86400000.0 * 30 ,range=[min(x), max(x)]),
         yaxis = dict(range=[min(y), max(y)]),
         font = dict(color = 'black'),
         title= 'Casos Nuevos por Día Chile',
@@ -916,7 +934,7 @@ def graph_regiones(regiones_elegidas):
         layout = go.Layout(
             paper_bgcolor='#f9f9f9',
             plot_bgcolor= '#f9f9f9',
-            xaxis =  dict(type='date', tickformat = '%m/%Y', dtick=86400000.0 * 30 ,range=[min(x), max(x)]),
+            xaxis =  dict(type='date', tickformat = '%d/%m/%Y', dtick=86400000.0 * 30 ,range=[min(x), max(x)]),
             #yaxis = dict(range=[min(y), max(y)]),
             font = dict(color = 'black'),
             title= 'Casos Regiones (Seleccionar una region)',
@@ -955,7 +973,7 @@ def graph_regiones(regiones_elegidas):
         layout = dict(
             title='Casos Regionales',
             font = dict(color = 'black'),
-            xaxis= dict(type='date', tickformat = '%m/%Y', dtick=86400000.0 * 30 ),
+            xaxis= dict(type='date', tickformat = '%d/%m/%Y', dtick=86400000.0 * 30 ),
             paper_bgcolor='#f9f9f9',
             plot_bgcolor= '#f9f9f9',
             )
@@ -978,7 +996,7 @@ def graph_regiones(comunas_elegidas):
         layout = go.Layout(
             paper_bgcolor='#f9f9f9',
             plot_bgcolor= '#f9f9f9',
-            xaxis = dict(type='date', tickformat = '%m/%Y', dtick=86400000.0 * 30 ),
+            xaxis = dict(type='date', tickformat = '%d/%m/%Y', dtick=86400000.0 * 30),
             #yaxis = dict(range=[min(y), max(y)]),
             font = dict(color = 'black'),
             title= 'Casos Comunas (seleccionar comuna)',
@@ -1015,7 +1033,7 @@ def graph_regiones(comunas_elegidas):
         layout = dict(
             title='Casos Comunas',
             font = dict(color = 'black'),
-            xaxis = dict(type='date', tickformat = '%m/%Y', dtick=86400000.0 * 30 ),
+            xaxis = dict(type='date', tickformat = '%d/%m/%Y', dtick=86400000.0 * 30 ),
             paper_bgcolor='#f9f9f9',
             plot_bgcolor= '#f9f9f9',
             )
@@ -1027,7 +1045,7 @@ def graph_regiones(comunas_elegidas):
         layout = go.Layout(
             paper_bgcolor='#f9f9f9',
             plot_bgcolor= '#f9f9f9',
-            xaxis = dict(type='date', tickformat = '%m/%Y', dtick=86400000.0 * 30 ),
+            xaxis = dict(type='date', tickformat = '%d/%m/%Y', dtick=86400000.0 * 30 ),
             #yaxis = dict(range=[min(y), max(y)]),
             font = dict(color = 'black'),
             title= 'Casos Comunas (seleccionar comuna)',
