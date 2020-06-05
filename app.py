@@ -264,7 +264,7 @@ body2 = html.Div([
                                         'margin-rigth':'10px'
                                     }
                                 ), 
-                                ),         
+                                ),       
                 dbc.Col(html.Div(
                                     Q2,
                                     id="Activos",
@@ -316,7 +316,7 @@ body2 = html.Div([
                                     }
                                 )
                                 ), 
-                ], 
+                ], className="row flex-display"
             ),
         dbc.Row(
             dbc.Col(html.Div(dcc.Graph(
@@ -334,6 +334,7 @@ body2 = html.Div([
                                 },
                             )
                             ), style={'margin-bottom':'10px'}), 
+                             className="row flex-display"
         ),
         dbc.Row(
             dbc.Col(dbc.Row([html.Div(html.H6('Nota aclaratoria grafico casos nacionales:', style={'color':'black'})),
@@ -353,7 +354,8 @@ body2 = html.Div([
                                 'padding': '15px'
                                 },
                             )
-                            ), style={'margin-bottom':'10px'}),
+                            ), style={'margin-bottom':'10px'},
+                             className="row flex-display"),
     ],
 )
 
