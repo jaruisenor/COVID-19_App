@@ -262,8 +262,8 @@ body2 = html.Div([
                                         'margin-left': '10px',
                                         'margin-bottom':'10px',
                                         'margin-rigth':'10px'
-                                    }
-                                ), 
+                                    }, 
+                                ), sm=True 
                                 ),       
                 dbc.Col(html.Div(
                                     Q2,
@@ -281,7 +281,7 @@ body2 = html.Div([
                                         'margin-rigth':'10px'
 
                                     }
-                                ), 
+                                ), sm=True 
                                 ), 
                 dbc.Col(html.Div(
                                     Q3,
@@ -298,7 +298,7 @@ body2 = html.Div([
                                         'margin-bottom':'10px',
                                         'margin-rigth':'10px'
                                     }
-                                ), 
+                                ), sm=True 
                                 ), 
                 dbc.Col(html.Div(
                                     Q4,
@@ -314,7 +314,7 @@ body2 = html.Div([
                                         'margin-left':'10px',
                                         'margin-bottom':'10px'
                                     }
-                                )
+                                ),sm=True 
                                 ), 
                 ], className="row flex-display"
             ),
