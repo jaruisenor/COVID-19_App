@@ -167,11 +167,11 @@ header=html.Div(
                         [
                             dbc.Col(html.Div(
                                 html.Img(
-                                        src='https://selloseligevivirsano.cl/wp-content/themes/sevs/images/logo-minsal-footer.png',
+                                        src='https://www.minsal.cl/wp-content/uploads/2017/03/logo-180x180-1.png',
                                         id="img_ministerio",
                                         style={
-                                            "height": "60%",
-                                            "width": "60%",
+                                            "height": "160px",
+                                            "width": "160px" 
                                             },
                                         ),
                             )),
@@ -179,7 +179,7 @@ header=html.Div(
                                 html.Div([
                                         html.H3(
                                                 "Dashboard COVID-19",
-                                                style={"margin-bottom": "0px",'textAlign':'center', 'margin-top': '20px' },
+                                                style={"margin-bottom": "0px",'textAlign':'center', 'margin-top': '60px' },
                                             ),
                                             html.H5(
                                                 "Datos Chile 2020", style={"margin-top": "0px", 'textAlign':'center', "margin-bottom": "5px"}
@@ -191,7 +191,7 @@ header=html.Div(
                                             dbc.Button("Mas Info.", className="mr-1",
                                                 href='https://www.gob.cl/coronavirus/?gclid=EAIaIQobChMIp5XdmNje6QIVRAWRCh1_jAACEAAYASAAEgKqafD_BwE',
                                                 style={
-                                                    "margin-top": "30px", 
+                                                    "margin-top": "60px", 
                                                     'textAlign':'right',
                                                     'margin-right':'0vw'
                                                     }),
@@ -532,7 +532,7 @@ graphs =html.Div(
 ## FOOTER
 contenedor_footer= dbc.Col([
                     dbc.Row([html.Div(html.P('Fuente: '), style={'margin-right':'5px'}),
-                            html.Div(html.A('Cifras Oficiales, Gobierno de Chile', href= 'https://github.com/MinCiencia/Datos-COVID19/'))], style={'textAlign':'center'}),
+                            html.Div(html.A('Cifras Oficiales, Gobierno de Chile', href= 'https://github.com/MinCiencia/Datos-COVID19/'))], justify='center'),
                     dbc.Row([html.Div(html.P('Autor: '), style={'margin-right':'5px'}),
                             html.Div(html.A('Joaquin Ruiseñor', href= 'https://www.linkedin.com/in/joaquin-ruise%C3%B1or/'), style={'margin-right':'5px'}),
                             html.Div(html.Img(src="https://www.soydemarketing.com/wp-content/uploads/2015/12/linkedin-logo.png",style={
@@ -545,11 +545,11 @@ contenedor_footer= dbc.Col([
                                             "height": "25px",
                                             "width": "25px",
                                             })),
-                    ]),
-                ])
+                    ]), 
+                ], align='center')
 
 footer= dbc.Row(html.Div(contenedor_footer
-                        , style={'textAlign':'center', 'margin-top':'10px', 'margin-bottom':'10px', 'margin-right':'30%', 'margin-left':'30%'}
+                        , style={'textAlign':'right', 'margin-top':'10px', 'margin-bottom':'10px', 'margin-right':'30%', 'margin-left':'30%'}
     ))
 
 #################################################             Create app layout            ########################################################
