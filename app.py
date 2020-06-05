@@ -29,6 +29,7 @@ DATA_PATH = PATH.joinpath("data").resolve()
 server = flask.Flask(__name__)
 server.secret_key = os.environ.get('secret_key', str(randint(0, 1000000)))
 app = dash.Dash(__name__, server=server, meta_tags=[{"name": "viewport", "content": "width=device-width"}],  external_stylesheets=[dbc.themes.BOOTSTRAP])
+app.title = 'Info COVID-19 Chile'
 
 #####################################               GET DATA            ##########################################################################################################
 #### Datos regional/comunal
