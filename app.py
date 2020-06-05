@@ -263,7 +263,7 @@ body2 = html.Div([
                                         'margin-bottom':'10px',
                                         'margin-rigth':'10px'
                                     }
-                                ), className="row flex-display",
+                                ), 
                                 ),         
                 dbc.Col(html.Div(
                                     Q2,
@@ -314,7 +314,7 @@ body2 = html.Div([
                                         'margin-left':'10px',
                                         'margin-bottom':'10px'
                                     }
-                                ), 
+                                )
                                 ), 
                 ], 
             ),
