@@ -28,7 +28,7 @@ DATA_PATH = PATH.joinpath("data").resolve()
 
 server = flask.Flask(__name__)
 server.secret_key = os.environ.get('secret_key', str(randint(0, 1000000)))
-app = dash.Dash(__name__, server=server, meta_tags=[{"name": "viewport", "content": "width=device-width"}],  external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = dash.Dash(__name__, server=server, meta_tags=[{"name": "viewport", "content": "width=device-width"}])
 app.title = 'Info COVID-19 Chile'
 
 #####################################               GET DATA            ##########################################################################################################
@@ -162,410 +162,243 @@ comorbo = pd.read_csv(source)
 
 ################################################ Layout Components  #####################################################################
 
-header=html.Div(
-            html.Div(
-                [
-                    dbc.Row(
-                        [
-                            dbc.Col(html.Div(
-                                html.Img(
-                                        src='https://www.minsal.cl/wp-content/uploads/2017/03/logo-180x180-1.png',
-                                        id="img_ministerio",
-                                        style={
-                                            "height": "160px",
-                                            "width": "160px" 
-                                            },
-                                        ),
-                            )),
-                            dbc.Col(html.Div(
-                                html.Div([
-                                        html.H3(
-                                                "Dashboard COVID-19",
-                                                style={"margin-bottom": "0px",'textAlign':'center', 'margin-top': '60px' },
-                                            ),
-                                            html.H5(
-                                                "Datos Chile 2020", style={"margin-top": "0px", 'textAlign':'center', "margin-bottom": "5px"}
-                                            )
-                                        ]),           
-                                    ),
-                            ),
-                            dbc.Col(html.Div(
-                                            dbc.Button("Mas Info.", className="mr-1",
-                                                href='https://www.gob.cl/coronavirus/?gclid=EAIaIQobChMIp5XdmNje6QIVRAWRCh1_jAACEAAYASAAEgKqafD_BwE',
-                                                style={
-                                                    "margin-top": "60px", 
-                                                    'textAlign':'right',
-                                                    'margin-right':'0vw'
-                                                    }),
-                                            style={
-                                                'textAlign':'right',
-                                                'vertical-align':'middle'
-                                            }
-                                        )
-                                            
-                            )
-                        ],
-                       
-                    ),
-                ]
-            ),
-    )
-
-
-
-Q1=html.Div([dbc.Row([dbc.Col(html.Div(html.Img(src="https://image.flaticon.com/icons/svg/2922/2922518.svg",style={
-                                            "height": "25px",
-                                            "width": "25px",
-                                            }) ),width=3),
-                        dbc.Col(html.Div(html.H5(id="total-casos")))]),
-        dbc.Row(dbc.Col(html.Div(html.P("Totales"))), style={'margin-top':'10px', 'margin-bottom':'0px'})
-    ])
-
-Q2=html.Div([dbc.Row([dbc.Col(html.Div(html.Img(src="https://image.flaticon.com/icons/svg/3022/3022870.svg",style={
-                                            "height": "25px",
-                                            "width": "25px",
-                                            }) ),width=3),
-                        dbc.Col(html.Div(html.H5(id="total-activos")))]),
-        dbc.Row(dbc.Col(html.Div(html.P("Activos"))), style={'margin-top':'10px', 'margin-bottom':'0px'})
-    ])
-
-Q3=html.Div([dbc.Row([dbc.Col(html.Div(html.Img(src="https://image.flaticon.com/icons/svg/2913/2913465.svg",style={
-                                            "height": "25px",
-                                            "width": "25px",
-                                            }) ),width=3),
-                        dbc.Col(html.Div(html.H5(id="casos-nuevos")))]),
-        dbc.Row(dbc.Col(html.Div(html.P("Casos Nuevos"))), style={'margin-top':'10px', 'margin-bottom':'0px'})
-    ])
-
-Q4=html.Div([dbc.Row([dbc.Col(html.Div(html.Img(src="https://image.flaticon.com/icons/svg/2242/2242092.svg",style={
-                                            "height": "25px",
-                                            "width": "25px",
-                                            }) ),width=3),
-                        dbc.Col(html.Div(html.H5(id="total-muertes")))]),
-        dbc.Row(dbc.Col(html.Div(html.P("Fallecidos"))), style={'margin-top':'10px', 'margin-bottom':'0px'})
-    ])
-
-
-
-
-body2 = html.Div([
-        dbc.Row([
-                dbc.Col(html.Div(
-                                   Q1,
-                                    id="casos",
-                                    className="mini_container", 
-                                    style={
-                                        'border-radius': '5px',
-                                        'background-color': '#f9f9f9',
-                                        'padding': '15px',
-                                        'position': 'relative',
-                                        'box-shadow': '2px 2px 2px lightgrey',
-                                        'margin-top':'10px',
-                                        'margin-left': '10px',
-                                        'margin-bottom':'10px',
-                                        'margin-rigth':'10px'
-                                    }, 
-                                ), sm=True 
-                                ),       
-                dbc.Col(html.Div(
-                                    Q2,
-                                    id="Activos",
-                                    className="mini_container",
-                                    style={
-                                        'border-radius': '5px',
-                                        'background-color': '#f9f9f9',
-                                        'padding': '15px',
-                                        'position': 'relative',
-                                        'box-shadow': '2px 2px 2px lightgrey',
-                                        'margin-top':'10px',
-                                        'margin-left': '10px',
-                                        'margin-bottom':'10px',
-                                        'margin-rigth':'10px'
-
-                                    }
-                                ), sm=True 
-                                ), 
-                dbc.Col(html.Div(
-                                    Q3,
-                                    id="Nuevos",
-                                    className="mini_container",
-                                    style={
-                                        'border-radius': '5px',
-                                        'background-color': '#f9f9f9',
-                                        'padding': '15px',
-                                        'position': 'relative',
-                                        'box-shadow': '2px 2px 2px lightgrey',
-                                        'margin-top':'10px',
-                                        'margin-left': '10px',
-                                        'margin-bottom':'10px',
-                                        'margin-rigth':'10px'
-                                    }
-                                ), sm=True 
-                                ), 
-                dbc.Col(html.Div(
-                                    Q4,
-                                    id="Fallecidos",
-                                    className="mini_container",
-                                    style={
-                                        'border-radius': '5px',
-                                        'background-color': '#f9f9f9',
-                                        'padding': '15px',
-                                        'position': 'relative',
-                                        'box-shadow': '2px 2px 2px lightgrey',
-                                        'margin-top':'10px',
-                                        'margin-left':'10px',
-                                        'margin-bottom':'10px'
-                                    }
-                                ),sm=True 
-                                ), 
-                ], className="row flex-display"
-            ),
-        dbc.Row(
-            dbc.Col(html.Div(dcc.Graph(
-                            id='grafico-nacional', 
-                            animate=True,
-                            style={
-                                'color':'#ffffff',
-                                'border-radius': '10px',
-                                'background-color': '#f9f9f9',
-                                'margin-top': '10px',
-                                'margin-left':'10px',
-                                'position': 'relative',
-                                'box-shadow': '2px 2px 2px lightgrey',
-                                'margin-bottom':'0px'
-                                },
-                            )
-                            ), style={'margin-bottom':'10px'}), 
-                             className="row flex-display"
-        ),
-        dbc.Row(
-            dbc.Col(dbc.Row([html.Div(html.H6('Nota aclaratoria grafico casos nacionales:', style={'color':'black'})),
-                            html.Div(html.A('Gobierno cambió la manera de registrar casos activos de COVID 19 el 1 de Junio del 2020', href='https://www.minsal.cl/ministerio-de-salud-incluye-nuevos-criterios-metodologicos-para-definicion-de-casos-activos-y-fallecidos/'),
-                                        )
-                            ],
-                            style={
-                                'color':'#ffffff',
-                                'border-radius': '10px',
-                                'background-color': '#f9f9f9',
-                                'margin-top': '10px',
-                                'margin-left':'10px',
-                                'margin-right':'0px',
-                                'position': 'relative',
-                                'box-shadow': '2px 2px 2px lightgrey',
-                                'margin-bottom':'0px',
-                                'padding': '15px'
-                                },
-                            )
-                            ), style={'margin-bottom':'10px'},
-                             className="row flex-display"),
-    ],
-)
-
-
-
-######### Filtros row/column
-filtros = dbc.Container(
+# Create app layout
+app.layout = html.Div(
+    [
+        dcc.Store(id="aggregate_data"),
+        # empty Div to trigger javascript file for graph resizing
+        html.Div(id="output-clientside"),
         html.Div(
-                [
-                    html.B("Filtrar por fecha: ", className="control_label", style={'margin-top':'10px'}),
-                    dcc.DatePickerRange(
-                    id='my-date-picker-range',
-                    min_date_allowed=list_of_dates[0],
-                    max_date_allowed=list_of_dates[-1],
-                    initial_visible_month=list_of_dates[0],
-                    start_date=list_of_dates[0],
-                    end_date=list_of_dates[-1],
-                    style={'margin-top':'5px'}
-                    ),
-                    html.Div(id='output-container-date-picker-range'),
-                    html.Hr(),
-                    html.B("Filtrar por Región: ", className="control_label"),
-                    dcc.RadioItems(
-                        id="filtro-region",
-                        options=[
-                            {"label": "Todos ", "value": "todos"},
-                            {"label": "Personalizado", "value": "personalizado"},
-                        ],
-                        #value="Metropolitana",
-                        labelStyle={"display": "inline-block"},
-                        className="dcc_control",
-                        inputStyle={'margin-left':'10px', 'margin-right':'5px'}
-                    ),
-                    dcc.Dropdown(
+            [
+                html.Div(
+                    [
+                        html.Img(
+                            src="https://upload.wikimedia.org/wikipedia/commons/0/02/Logotipo_del_Instituto_de_Salud_P%C3%BAblica_de_Chile.png",
+                            id="img_ministerio",
+                            style={
+                                "height": "100px",
+                                "width": "auto",
+                                "margin-bottom": "25px",
+                            },
+                        )
+                    ],
+                    className="one-third column",
+                ),
+                html.Div(
+                    [
+                        html.Div(
+                            [
+                                html.H3(
+                                    "Dashboard COVID-19",
+                                    style={"margin-bottom": "0px"},
+                                ),
+                                html.H5(
+                                    "Datos Chile 2020", style={"margin-top": "0px"}
+                                ),
+                            ]
+                        )
+                    ],
+                    className="one-half column",
+                    id="title",
+                ),
+                html.Div(
+                    [
+                        html.A(
+                            html.Button("Info. Ministerio", id="learn-more-button"),
+                            href="https://www.gob.cl/coronavirus/?gclid=EAIaIQobChMIp5XdmNje6QIVRAWRCh1_jAACEAAYASAAEgKqafD_BwE",
+                        )
+                    ],
+                    className="one-third column",
+                    id="button",
+                ),
+            ],
+            id="header",
+            className="row flex-display",
+            style={"margin-bottom": "25px"},
+        ),
+        html.Div(
+            [
+                html.Div(
+                    [
+                        html.B(
+                            "Filtrar por fecha:",
+                            className="control_label",
+                        ),
+                        dcc.DatePickerRange(
+                        id='my-date-picker-range',
+                        min_date_allowed=list_of_dates[0],
+                        max_date_allowed=list_of_dates[-1],
+                        initial_visible_month=list_of_dates[0],
+                        start_date=list_of_dates[0],
+                        end_date=list_of_dates[-1],
+                        style={'margin-top':'5px'}
+                        ),
+                        html.Div(id='output-container-date-picker-range', className="control_label"),
+                        html.Hr(),
+                        html.B("Filtrar por Región:", className="control_label"),
+                        dcc.RadioItems(
+                            id="filtro-region",
+                            options=[
+                                {"label": "Todos ", "value": "todos"},
+                                {"label": "Personalizado", "value": "personalizado"},
+                            ],
+                            #value="Metropolitana",
+                            labelStyle={"display": "inline-block"},
+                            className="dcc_control",
+                            inputStyle={'margin-left':'10px', 'margin-right':'5px'}
+                        ),
+                        dcc.Dropdown(
                             id='seleccion_regiones',
                             options=[{'label':k, 'value': k} for k in todas_opciones.keys()],
                             multi=True,
                             value=list('Metropolitana'),
                             className="dcc_control",
                         ),
-                    html.P('Mirar Grafico "Casos Regionales" abajo para ver datos filtrados.', style={'font-size':'10px', 'margin-top':'5px'}),
-                    html.Hr(),
-                    html.B("Filtrar por Comuna: ", className="control_label"),
-                    dcc.RadioItems(
-                        id="filtro-comuna",
-                        options=[
-                            {"label": "Personalizado", "value": "personalizado"},
-                        ],
-                        value="Providencia",
-                        labelStyle={"display": "inline-block"},
-                        className="dcc_control",
-                        inputStyle={'margin-left':'10px', 'margin-right':'5px'}
-                    ),
-                    dcc.Dropdown(
+                        html.P('Mirar Grafico "Casos Regionales" abajo para ver datos filtrados.', className="subcontrol_label"),
+                        html.Hr(),
+                        html.B("Filtrar por Comuna: ", className="control_label"),
+                        dcc.RadioItems(
+                            id="filtro-comuna",
+                            options=[
+                                {"label": "Personalizado", "value": "personalizado"},
+                            ],
+                            value="Providencia",
+                            labelStyle={"display": "inline-block"},
+                            className="dcc_control",
+                            inputStyle={'margin-left':'10px', 'margin-right':'5px'}
+                        ),
+                        dcc.Dropdown(
                             id='seleccion_comunas',
                             multi=True,
                             className="dcc_control",
                             value = list()
                         ),
-                    html.P('Mirar Grafico "Casos Comunales" abajo para ver datos filtrados.', style={'font-size':'10px', 'margin-top':'5px'}),
-
-                ]), fluid=True
-)
-                    
-
-
-
-body = html.Div(
-        dbc.Row([
-                dbc.Col(filtros, 
-                        style={
-                            'border-radius': '5px',
-                            'background-color': '#f9f9f9',
-                            'margin': '10px',
-                            'padding': '5px',
-                            'position': 'relative',
-                            'box-shadow': '2px 2px 2px lightgrey',
-                            'width':'100%',
-                        },  
-                        width=4),       
-                dbc.Col(body2,
-                        style={
-                            'border-radius': '5px',
-                            'background-color': '#ffffff',
-                            'marigin-top':'10px',
-                            'position': 'relative',
-                            'width':'100%',
-                            })
-        ]),
-)
-
-##### Graficos
-#G1
-G1 = html.Div(dcc.Graph(
-                        id='grafico_nuevos', 
-                        animate=True
-                            )
-                        )
-
-
-#G2
-G2 = html.Div(dcc.Graph(
-                        id='grafico_regiones', 
-                        animate=True
-                            )
-                        )
-
-
-
-two_graphs =html.Div(
-                dbc.Row([
-                        dbc.Col(G2, 
-                                style={
-                                    'border-radius': '5px',
-                                    'background-color': '#f9f9f9',
-                                    'margin': '10px',
-                                    'padding': '5px',
-                                    'position': 'relative',
-                                    'box-shadow': '2px 2px 2px lightgrey',
-                                    'width':'100%',
-                                }),       
-                        dbc.Col(G1, 
-                                style={
-                                    'border-radius': '5px',
-                                    'background-color': '#f9f9f9',
-                                    'margin': '10px',
-                                    'padding': '5px',
-                                    'position': 'relative',
-                                    'box-shadow': '2px 2px 2px lightgrey',
-                                    'width':'100%',
-                                })
-                ]),
-        )
-######Ultimos 2 Graficos
-#G3
-G3 = html.Div(dcc.Graph(
-                        id='grafico_comunas', 
-                        animate=True
-                            )
-                        )
-
-
-#G4
-G4 = html.Div(dcc.Graph(
-                        id='grafico_enfermedades', 
-                        animate=True
-                            )
-                        )
-
-
-graphs =html.Div(
-                dbc.Row([
-                        dbc.Col(G3, 
-                                style={
-                                    'border-radius': '5px',
-                                    'background-color': '#f9f9f9',
-                                    'margin': '10px',
-                                    'padding': '5px',
-                                    'position': 'relative',
-                                    'box-shadow': '2px 2px 2px lightgrey',
-                                    'width':'100%',
-                                }),       
-                        dbc.Col(G4, 
-                                style={
-                                    'border-radius': '5px',
-                                    'background-color': '#f9f9f9',
-                                    'margin': '10px',
-                                    'padding': '5px',
-                                    'position': 'relative',
-                                    'box-shadow': '2px 2px 2px lightgrey',
-                                    'width':'100%',
-                                })
-                ]),
-        )
-
-## FOOTER
-contenedor_footer= dbc.Col([
-                    dbc.Row([html.Div(html.P('Fuente: '), style={'margin-right':'5px'}),
-                            html.Div(html.A('Cifras Oficiales, Gobierno de Chile', href= 'https://github.com/MinCiencia/Datos-COVID19/'))], justify='center'),
-                    dbc.Row([html.Div(html.P('Autor: '), style={'margin-right':'5px'}),
-                            html.Div(html.A('Joaquin Ruiseñor', href= 'https://www.linkedin.com/in/joaquin-ruise%C3%B1or/'), style={'margin-right':'5px'}),
-                            html.Div(html.Img(src="https://www.soydemarketing.com/wp-content/uploads/2015/12/linkedin-logo.png",style={
+                        html.P('Mirar Grafico "Casos Comunales" abajo para ver datos filtrados.', className="subcontrol_label"),
+                    ],
+                    className="pretty_container four columns",
+                    id="cross-filter-options",
+                ),
+                html.Div(
+                    [
+                        html.Div(
+                            [
+                                html.Div(
+                                    [html.Img(src="https://image.flaticon.com/icons/svg/2922/2922518.svg",style={
                                             "height": "25px",
                                             "width": "25px",
-                                            }))]),
-                    dbc.Row([html.Div(html.P('Repo: '), style={'margin-right':'5px'}),
-                            html.Div(html.A('jaruisenor/covid19dash', href= 'https://github.com/jaruisenor/COVID-19_App'), style={'margin-right':'5px'}),
-                            html.Div(html.Img(src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",style={
+                                            'float':'left',
+                                            'padding':'8px',
+                                            'margin-right':'10px'
+                                            }), html.H6(id="total-casos"), html.P("Casos")],
+                                    id="casos",
+                                    className="mini_container",
+                                ),  
+                                html.Div(
+                                    [html.Img(src="https://image.flaticon.com/icons/svg/3022/3022870.svg",style={
                                             "height": "25px",
                                             "width": "25px",
-                                            })),
-                    ]), 
-                ], align='center')
+                                            'float':'left',
+                                            'padding':'8px',
+                                            'margin-right':'10px'
+                                            }),html.H6(id="total-activos"), html.P("Activos")],
+                                    id="Activos",
+                                    className="mini_container",
+                                ),
+                                html.Div(
+                                    [html.Img(src="https://image.flaticon.com/icons/svg/2913/2913465.svg",style={
+                                            "height": "25px",
+                                            "width": "25px",
+                                            'float':'left',
+                                            'padding':'8px',
+                                            'margin-right':'10px'
+                                            }),html.H6(id="casos-nuevos"), html.P("Nuevos")],
+                                    id="Nuevos",
+                                    className="mini_container",
+                                ),
+                                html.Div(
+                                    [html.Img(src="https://image.flaticon.com/icons/svg/2242/2242092.svg",style={
+                                            "height": "25px",
+                                            "width": "25px",
+                                            'float':'left',
+                                            'padding':'8px',
+                                            'margin-right':'10px'
+                                            }),html.H6(id="total-muertes"), html.P("Fallecidos")],
+                                    id="Fallecidos",
+                                    className="mini_container",
+                                ),
+                            ],
+                            id="info-container",
+                            className="row container-display",
+                        ),
+                        html.Div(
+                            [dcc.Graph(id='grafico-nacional')],
+                            id="countGraphContainer",
+                            className="pretty_container",
+                        ),
+                    ],
+                    id="right-column",
+                    className="eight columns",
+                ),
+            ],
+            className="row flex-display",
+        ),
+        html.Div(
+            [
+                html.Div(
+                    [dcc.Graph(id='grafico_regiones')],
+                    className="pretty_container seven columns",
+                ),
+                html.Div(
+                    [dcc.Graph(id='grafico_nuevos')],
+                    className="pretty_container five columns",
+                ),
+            ],
+            className="row flex-display",
+        ),
+        html.Div(
+            [
+                html.Div(
+                    [dcc.Graph(id='grafico_comunas')],
+                    className="pretty_container seven columns",
+                ),
+                html.Div(
+                    [dcc.Graph(id='grafico_enfermedades')],
+                    className="pretty_container five columns",
+                ),
+            ],
+            className="row flex-display",
+        ),
 
-footer= dbc.Row(html.Div(contenedor_footer
-                        , style={'textAlign':'right', 'margin-top':'10px', 'margin-bottom':'10px', 'margin-right':'30%', 'margin-left':'30%'}
-    ))
-
-#################################################             Create app layout            ########################################################
-
-app.layout=html.Div([
-    dbc.Container(header),
-    dbc.Container(body),
-    dbc.Container(two_graphs),
-    dbc.Container(graphs),
-    dbc.Container(footer)
-    
-])
+        html.Div(
+            [ html.Div(html.A('Cifras Oficiales, Gobierno de Chile', href= 'https://github.com/MinCiencia/Datos-COVID19/'))],
+            id="footer1",
+            className="footer-display",
+        ),
+        html.Div(
+            [
+                    html.Div(html.A('Joaquin Ruiseñor', href= 'https://www.linkedin.com/in/joaquin-ruise%C3%B1or/'), style={'margin-right':'5px'}),
+                    html.Div(html.Img(src="https://www.soydemarketing.com/wp-content/uploads/2015/12/linkedin-logo.png",style={
+                                    "height": "25px",
+                                    "width": "25px",
+                                    }))],
+            id="footer2",
+            className="footer-display",
+        ),
+        html.Div(
+            [
+                    html.Div(html.A('jaruisenor/covid19dash', href= 'https://github.com/jaruisenor/COVID-19_App'), style={'margin-right':'5px'}),
+                    html.Div(html.Img(src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",style={
+                                    "height": "25px",
+                                    "width": "25px",
+                                    }))],
+            id="footer3",
+            className="footer-display"
+            ),
+        
+    ],
+    id="mainContainer",
+    style={"display": "flex", "flex-direction": "column"},
+)
 
 ################################################# fin App Layout ###################################################################################
 # Helper functions
@@ -756,7 +589,8 @@ def update_total_casos(start_date, end_date):
         if i >= 0:
             lista_no_vacia.append(i)
     non_empty=lista_no_vacia[-1]
-    return non_empty
+    comma = '{:,.0f}'.format(non_empty)
+    return comma
 
 #Activos
 @app.callback(
@@ -772,7 +606,8 @@ def update_total_casos(start_date, end_date):
         if i >= 0:
             lista_no_vacia.append(i)
     non_empty=lista_no_vacia[-1]
-    return non_empty
+    comma = '{:,.0f}'.format(non_empty)
+    return comma
 
 #Recuperados
 @app.callback(
@@ -806,7 +641,9 @@ def update_total_casos(start_date, end_date):
         if i >= 0:
             lista_no_vacia.append(i)
     non_empty=lista_no_vacia[-1]
-    return non_empty
+    comma = '{:,.0f}'.format(non_empty)
+    return comma
+
 
 
 #Date --> Grafico nacional
