@@ -18,9 +18,20 @@ This project was developed using the framework Dash https://plotly.com/dash/.
 - Simultaneous comunas data dsiplay
 - COVID-19 Cases comorbidities visual (hospitalized cases and not hospitalized cases)
 
+App focuses on heavy crossfiltering options with a big filtering panel.
+
+<img src="/images/Vista1.png"
+     alt="Preview of the app"
+     style="float: left; margin-right: 10px;" />
+
 ### Learn More 
 
 https://www.minsal.cl/nuevo-coronavirus-2019-ncov/casos-confirmados-en-chile-covid-19/
 
 ### Check Dash Documentation
 https://plotly.com/dash/
+
+### References
+External CSS files from https://github.com/plotly/dash-sample-apps/tree/master/apps/dash-oil-and-gas
+
+
